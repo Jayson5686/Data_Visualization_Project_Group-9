@@ -1,6 +1,6 @@
 /**
  * Storyline 3: State and Territory Patterns
- * Dual-Pane Architecture 
+ * Dual-Pane Architecture (bikerental.webp style):
  * Left Dark Matrix Pane (Heatmap) + Right Alabaster Trajectory & Journey Cards Pane
  */
 
@@ -52,7 +52,13 @@ function initStoryline3(stateData) {
     .call(d3.axisLeft(yHmScale));
 
   const colorScale = d3.scaleSequential()
-    .interpolator(d3.interpolateYlGnBu);
+    .interpolator(getHeatmapInterpolator());
+
+  function getHeatmapInterpolator() {
+    return document.documentElement.dataset.theme === 'high-contrast'
+      ? d3.interpolateRgb('#000000', '#FFFF00')
+      : d3.interpolateYlGnBu;
+  }
 
   const rowHighlight = gHm.append('rect')
     .attr('class', 'state-row-highlight')
@@ -91,13 +97,14 @@ function initStoryline3(stateData) {
   const stateAreaPath = gLine.append('path').attr('class', 'area-path');
   const stateLinePath = gLine.append('path')
     .attr('class', 'line-path')
-    .attr('stroke', '#181B20');
+    .attr('stroke', 'var(--chart-line)');
 
   const statePointsGroup = gLine.append('g');
 
   function updateHeatmap() {
     const t = d3.transition().duration(500).ease(d3.easeCubicOut);
 
+    colorScale.interpolator(getHeatmapInterpolator());
     const maxVal = d3.max(stateData, d => d[activeMeasure]) || 1;
     colorScale.domain([0, maxVal]);
 
@@ -157,6 +164,7 @@ function initStoryline3(stateData) {
 
     updateLegendCanvas(maxVal);
     updateStateLineChart();
+    if (window.refreshDataTable) window.refreshDataTable('storyline3');
   }
 
   function selectState(stateCode) {
@@ -178,6 +186,7 @@ function initStoryline3(stateData) {
       .attr('y', yHmScale(activeState) - 3);
 
     updateStateLineChart();
+    if (window.refreshDataTable) window.refreshDataTable('storyline3');
   }
 
   function updateStateLineChart() {
@@ -193,7 +202,7 @@ function initStoryline3(stateData) {
       metaSummary.innerHTML = `11-Year Total: <strong>${window.formatNumber(totalStateHosp)}</strong> Admissions · <strong>${window.formatNumber(totalStateBeds)}</strong> Bed Days`;
     }
 
-    // Update Dark Journey Milestone Cards 
+    // Update Dark Journey Milestone Cards (bikerental.webp "Latest journeys" cards)
     const d2011 = filtered.find(d => d.Year === 2011);
     const d2019 = filtered.find(d => d.Year === 2019);
     const d2020 = filtered.find(d => d.Year === 2020);
@@ -338,6 +347,8 @@ function initStoryline3(stateData) {
     btnHosp.addEventListener('click', () => {
       btnHosp.classList.add('active');
       btnBeds.classList.remove('active');
+      btnHosp.setAttribute('aria-pressed', 'true');
+      btnBeds.setAttribute('aria-pressed', 'false');
       activeMeasure = 'Hospitalisations';
       window.AppState.activeMeasureS3 = activeMeasure;
       updateHeatmap();
@@ -346,12 +357,30 @@ function initStoryline3(stateData) {
     btnBeds.addEventListener('click', () => {
       btnBeds.classList.add('active');
       btnHosp.classList.remove('active');
+      btnBeds.setAttribute('aria-pressed', 'true');
+      btnHosp.setAttribute('aria-pressed', 'false');
       activeMeasure = 'BedDays';
       window.AppState.activeMeasureS3 = activeMeasure;
       updateHeatmap();
     });
   }
 
+  window.reset3 = () => {
+    activeMeasure = 'Hospitalisations';
+    window.AppState.activeMeasureS3 = activeMeasure;
+    if (btnHosp) btnHosp.classList.add('active');
+    if (btnBeds) btnBeds.classList.remove('active');
+    if (btnHosp) btnHosp.setAttribute('aria-pressed', 'true');
+    if (btnBeds) btnBeds.setAttribute('aria-pressed', 'false');
+    updateHeatmap();
+    selectState('NSW');
+  };
+
+  const heatmapThemeObserver = new MutationObserver(updateHeatmap);
+  heatmapThemeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
   updateHeatmap();
-  selectState('NSW');
+  selectState(activeState);
 }

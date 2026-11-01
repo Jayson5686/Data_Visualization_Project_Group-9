@@ -73,7 +73,7 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
   gTrend.append('path')
     .datum(fnAnnual)
     .attr('class', 'line-path')
-    .attr('stroke', '#181B20')
+    .attr('stroke', 'var(--chart-line)')
     .attr('d', lineTrendGen);
 
   const trendNodes = gTrend.selectAll('.data-point')
@@ -84,10 +84,19 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
     .attr('cx', d => xTrendScale(d.Year))
     .attr('cy', d => yTrendScale(d.Hospitalisations))
     .attr('r', d => d.Year === activeYear ? 6.5 : 4.5)
-    .style('fill', d => d.Year === activeYear ? '#F59E0B' : '#FFFFFF')
-    .on('mouseenter', function(event, d) {
-      const growthFrom2011 = (((d.Hospitalisations - fnAnnual[0].Hospitalisations) / fnAnnual[0].Hospitalisations) * 100).toFixed(1);
-      window.showTooltip(event, `
+    .classed('active-year', d => d.Year === activeYear)
+    .on('mouseenter', showTrendTooltip)
+    .on('mouseleave', () => {
+      window.hideTooltip();
+    })
+    .on('click', (event, d) => {
+      stopPlayback();
+      setStoryline4Year(d.Year);
+    });
+
+  function showTrendTooltip(event, d) {
+    const growthFrom2011 = (((d.Hospitalisations - fnAnnual[0].Hospitalisations) / fnAnnual[0].Hospitalisations) * 100).toFixed(1);
+    window.showTooltip(event, `
         <div class="tooltip-header">
           <span class="tooltip-tag">First Nations Annual</span>
           <span class="tooltip-badge">${d.Year}</span>
@@ -101,13 +110,17 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
           Click node to filter ${d.Year} road-user and age breakdowns below.
         </div>
       `);
-    })
-    .on('mouseleave', () => {
-      window.hideTooltip();
-    })
-    .on('click', (event, d) => {
-      setStoryline4Year(d.Year);
-    });
+  }
+
+  function previewTrendYear(year) {
+    const node = trendNodes.filter(d => d.Year === year).node();
+    if (!node) return;
+    const bounds = node.getBoundingClientRect();
+    showTrendTooltip({
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2
+    }, d3.select(node).datum());
+  }
 
   // 2. Bottom Left Chart: Road-User Horizontal Bars
   const marginUsers = { top: 16, right: 65, bottom: 36, left: 295 };
@@ -163,8 +176,8 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
     // Highlight active year node on top trend line
     trendNodes
       .transition(t)
-      .attr('r', d => d.Year === activeYear ? 6.5 : 4.5)
-      .style('fill', d => d.Year === activeYear ? '#F59E0B' : '#FFFFFF');
+      .attr('r', d => d.Year === activeYear ? 6.5 : 4.5);
+    trendNodes.classed('active-year', d => d.Year === activeYear);
 
     // A. Filter Road Users
     const currentUsers = fnRoadUser.filter(d => d.Year === activeYear);
@@ -187,9 +200,9 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
 
     const getFnUserFill = (d, i) => {
       if (d.Hospitalisations === 'n.p.') return 'url(#diagonal-hatch-pattern)';
-      if (i === 0) return '#181B20';
-      if (i === 1) return '#F59E0B';
-      return '#64748B';
+      if (i === 0) return 'var(--chart-bar-primary)';
+      if (i === 1) return 'var(--accent-amber)';
+      return 'var(--chart-bar-neutral)';
     };
 
     const userBars = gUsers.selectAll('.user-bar-item')
@@ -215,6 +228,9 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
 
     userBarsMerged.select('rect')
       .attr('class', d => d.Hospitalisations === 'n.p.' ? 'chart-bar np-hatched-slot' : 'chart-bar')
+      .classed('rank-primary', (d, i) => d.Hospitalisations !== 'n.p.' && i === 0)
+      .classed('rank-highlight', (d, i) => d.Hospitalisations !== 'n.p.' && i === 1)
+      .classed('rank-neutral', (d, i) => d.Hospitalisations !== 'n.p.' && i > 1)
       .attr('fill', (d, i) => getFnUserFill(d, i))
       .transition(t)
       .attr('y', d => yUsersScale(d.RoadUser))
@@ -222,11 +238,11 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
       .attr('width', d => d.Hospitalisations === 'n.p.' ? 32 : xUsersScale(d.Hospitalisations));
 
     userBarsMerged.select('text')
+      .classed('np-value', d => d.Hospitalisations === 'n.p.')
       .transition(t)
       .attr('x', d => (d.Hospitalisations === 'n.p.' ? 40 : xUsersScale(d.Hospitalisations) + 8))
       .attr('y', d => yUsersScale(d.RoadUser) + yUsersScale.bandwidth() / 2 + 4)
-      .text(d => d.Hospitalisations === 'n.p.' ? 'n.p.' : window.formatNumber(d.Hospitalisations))
-      .style('fill', d => d.Hospitalisations === 'n.p.' ? '#E5483B' : '#14171A');
+      .text(d => d.Hospitalisations === 'n.p.' ? 'n.p.' : window.formatNumber(d.Hospitalisations));
 
     userBars.exit().remove();
 
@@ -235,7 +251,7 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
         if (d.Hospitalisations === 'n.p.') {
           window.showTooltip(event, `
             <div class="tooltip-header">
-              <span class="tooltip-tag" style="color: #E5483B;">Suppressed Data ('n.p.')</span>
+              <span class="tooltip-tag" style="color: var(--accent-coral);">Suppressed Data ('n.p.')</span>
               <span class="tooltip-badge">${activeYear}</span>
             </div>
             <div class="tooltip-title">${d.RoadUser}</div>
@@ -297,7 +313,7 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
     const getFnAgeFill = d => {
       if (d.Hospitalisations === 'n.p.') return 'url(#diagonal-hatch-pattern)';
       if (d.AgeGroup === peakAgeObj.AgeGroup) return 'url(#emerald-bar-gradient)';
-      return '#181B20';
+      return 'var(--chart-bar-primary)';
     };
 
     const ageBars = gAge.selectAll('.age-bar-item')
@@ -324,6 +340,8 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
 
     ageBarsMerged.select('rect')
       .attr('class', d => d.Hospitalisations === 'n.p.' ? 'chart-bar np-hatched-slot' : 'chart-bar')
+      .classed('bar-peak', d => d.Hospitalisations !== 'n.p.' && d.AgeGroup === peakAgeObj.AgeGroup)
+      .classed('rank-neutral', d => d.Hospitalisations !== 'n.p.' && d.AgeGroup !== peakAgeObj.AgeGroup)
       .attr('fill', d => getFnAgeFill(d))
       .transition(t)
       .attr('x', d => xAgeScale(d.AgeGroup))
@@ -332,11 +350,11 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
       .attr('height', d => d.Hospitalisations === 'n.p.' ? 26 : heightAge - yAgeScale(d.Hospitalisations));
 
     ageBarsMerged.select('text')
+      .classed('np-value', d => d.Hospitalisations === 'n.p.')
       .transition(t)
       .attr('x', d => xAgeScale(d.AgeGroup) + xAgeScale.bandwidth() / 2)
       .attr('y', d => (d.Hospitalisations === 'n.p.' ? heightAge - 32 : yAgeScale(d.Hospitalisations) - 7))
-      .text(d => d.Hospitalisations === 'n.p.' ? 'n.p.' : window.formatNumber(d.Hospitalisations))
-      .style('fill', d => d.Hospitalisations === 'n.p.' ? '#E5483B' : '#14171A');
+      .text(d => d.Hospitalisations === 'n.p.' ? 'n.p.' : window.formatNumber(d.Hospitalisations));
 
     ageBars.exit().remove();
 
@@ -345,7 +363,7 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
         if (d.Hospitalisations === 'n.p.') {
           window.showTooltip(event, `
             <div class="tooltip-header">
-              <span class="tooltip-tag" style="color: #E5483B;">Suppressed Data ('n.p.')</span>
+              <span class="tooltip-tag" style="color: var(--accent-coral);">Suppressed Data ('n.p.')</span>
               <span class="tooltip-badge">${activeYear}</span>
             </div>
             <div class="tooltip-title">Age Group: ${d.AgeGroup}</div>
@@ -374,6 +392,9 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
       .on('mouseleave', () => {
         window.hideTooltip();
       });
+    window.refreshChartTooltip(containerUsers);
+    window.refreshChartTooltip(containerAge);
+    if (window.refreshDataTable) window.refreshDataTable('storyline4');
   }
 
   function setStoryline4Year(year) {
@@ -386,11 +407,23 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
     if (badge) badge.textContent = activeYear;
 
     updateBottomCharts();
+    previewTrendYear(activeYear);
   }
 
   const slider = document.getElementById('s4-year-slider');
   const badge = document.getElementById('s4-year-badge');
   const playBtn = document.getElementById('s4-play-btn');
+
+  function stopPlayback() {
+    isPlaying = false;
+    if (playInterval) clearInterval(playInterval);
+    playInterval = null;
+    if (playBtn) {
+      playBtn.textContent = '▶';
+      playBtn.setAttribute('aria-label', 'Play timeline animation');
+      playBtn.title = 'Play timeline animation';
+    }
+  }
 
   if (slider && badge) {
     slider.addEventListener('input', (e) => {
@@ -402,6 +435,8 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
     playBtn.addEventListener('click', () => {
       isPlaying = !isPlaying;
       playBtn.textContent = isPlaying ? '⏸' : '▶';
+      playBtn.setAttribute('aria-label', isPlaying ? 'Pause timeline animation' : 'Play timeline animation');
+      playBtn.title = isPlaying ? 'Pause timeline animation' : 'Play timeline animation';
 
       if (isPlaying) {
         playInterval = setInterval(() => {
@@ -411,9 +446,15 @@ function initStoryline4(fnAnnual, fnRoadUser, fnAge) {
         }, 1150);
       } else {
         clearInterval(playInterval);
+        playInterval = null;
       }
     });
   }
+
+  window.reset4 = () => {
+    stopPlayback();
+    setStoryline4Year(2021);
+  };
 
   updateBottomCharts();
 }

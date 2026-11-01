@@ -1,7 +1,7 @@
 /**
  * Storyline 2: Road-User and Age-Group Patterns
  * Dual Linked Bento Views: Sorted Horizontal Bars (Road Users) + Chronological Vertical Bars (Age Groups)
- * ("Product view" active emerald gradient bar + dark pill callout)
+ * Styled after dashboarddesign.webp ("Product view" active emerald gradient bar + dark pill callout)
  */
 
 function initStoryline2(roadUserData, ageData) {
@@ -40,7 +40,7 @@ function initStoryline2(roadUserData, ageData) {
     .attr('transform', `translate(0,${heightUsers})`);
   const yUsersAxisGroup = gUsers.append('g').attr('class', 'axis axis-y');
 
-  // 2. Setup Age Groups Chart (Vertical Bar Chart）
+  // 2. Setup Age Groups Chart (Vertical Bar Chart — dashboarddesign.webp "Product view" style)
   const marginAge = { top: 36, right: 20, bottom: 56, left: 52 };
   const widthAge = 460 - marginAge.left - marginAge.right;
   const heightAge = 430 - marginAge.top - marginAge.bottom;
@@ -93,9 +93,9 @@ function initStoryline2(roadUserData, ageData) {
     ).call(g => g.select('.domain').remove());
 
     const getUserBarFill = (d, i) => {
-      if (i === 0) return '#181B20';
-      if (i === 1 || i === 2) return '#F59E0B';
-      return '#94A3B8';
+      if (i === 0) return 'var(--chart-bar-primary)';
+      if (i === 1 || i === 2) return 'var(--accent-amber)';
+      return 'var(--chart-bar-neutral)';
     };
 
     const userBars = gUsers.selectAll('.chart-bar')
@@ -141,8 +141,11 @@ function initStoryline2(roadUserData, ageData) {
     );
 
     gUsers.selectAll('.chart-bar')
+      .classed('rank-primary', (d, i) => i === 0)
+      .classed('rank-highlight', (d, i) => i === 1 || i === 2)
+      .classed('rank-neutral', (d, i) => i > 2)
       .on('mouseenter', function(event, d) {
-        d3.select(this).attr('fill', '#10B981');
+        d3.select(this).classed('is-hovered', true);
         gUsers.selectAll('.chart-bar').classed('dimmed', o => o.RoadUser !== d.RoadUser);
 
         const stayRatio = (d.BedDays / d.Hospitalisations).toFixed(1);
@@ -167,12 +170,12 @@ function initStoryline2(roadUserData, ageData) {
       .on('mouseleave', function() {
         gUsers.selectAll('.chart-bar')
           .classed('dimmed', false)
-          .attr('fill', (d, i) => getUserBarFill(d, i));
+          .classed('is-hovered', false);
         window.hideTooltip();
       });
 
     // ------------------------------------------------------------------------
-    // B. Age Groups Vertical Bars 
+    // B. Age Groups Vertical Bars (dashboarddesign.webp "Product view" style)
     // ------------------------------------------------------------------------
     let yearAge = ageData.filter(d => d.Year === activeYear);
     const ageMap = new Map(yearAge.map(d => [d.AgeGroup, d]));
@@ -205,7 +208,7 @@ function initStoryline2(roadUserData, ageData) {
       d3.axisLeft(yAgeScale).ticks(5).tickSize(-widthAge).tickFormat('')
     ).call(g => g.select('.domain').remove());
 
-    const getAgeBarFill = d => d.AgeGroup === peakAgeObj.AgeGroup ? 'url(#emerald-bar-gradient)' : '#DCE0E8';
+    const getAgeBarFill = d => d.AgeGroup === peakAgeObj.AgeGroup ? 'url(#emerald-bar-gradient)' : 'var(--strip-line)';
 
     const ageBars = gAge.selectAll('.chart-bar')
       .data(formattedAge, d => d.AgeGroup);
@@ -252,7 +255,7 @@ function initStoryline2(roadUserData, ageData) {
       exit => exit.remove()
     );
 
-    //  Signature dark pill callout above the peak bar
+    // Render dashboarddesign.webp signature dark pill callout above the peak bar
     peakCalloutGroup.selectAll('*').remove();
     if (peakAgeObj && peakAgeObj[activeMeasure] > 0) {
       const px = xAgeScale(peakAgeObj.AgeGroup) + xAgeScale.bandwidth() / 2;
@@ -263,7 +266,7 @@ function initStoryline2(roadUserData, ageData) {
         .attr('cy', py - 8)
         .attr('r', 3.5)
         .attr('fill', '#FFFFFF')
-        .attr('stroke', '#10B981')
+        .attr('stroke', 'var(--accent-emerald)')
         .attr('stroke-width', 2);
 
       const pillText = window.formatNumber(peakAgeObj[activeMeasure]);
@@ -275,7 +278,7 @@ function initStoryline2(roadUserData, ageData) {
         .attr('width', pillW)
         .attr('height', 20)
         .attr('rx', 6)
-        .attr('fill', '#181B20');
+        .attr('fill', 'var(--chart-bar-primary)');
 
       peakCalloutGroup.append('text')
         .attr('x', px)
@@ -288,8 +291,10 @@ function initStoryline2(roadUserData, ageData) {
     }
 
     gAge.selectAll('.chart-bar')
+      .classed('bar-peak', d => d.AgeGroup === peakAgeObj.AgeGroup)
+      .classed('bar-muted', d => d.AgeGroup !== peakAgeObj.AgeGroup)
       .on('mouseenter', function(event, d) {
-        d3.select(this).attr('fill', 'url(#emerald-bar-gradient)');
+        d3.select(this).classed('is-hovered', true);
         gAge.selectAll('.chart-bar').classed('dimmed', o => o.AgeGroup !== d.AgeGroup);
 
         const stayRatio = d.Hospitalisations > 0 
@@ -316,9 +321,12 @@ function initStoryline2(roadUserData, ageData) {
       .on('mouseleave', function() {
         gAge.selectAll('.chart-bar')
           .classed('dimmed', false)
-          .attr('fill', d => getAgeBarFill(d));
+          .classed('is-hovered', false);
         window.hideTooltip();
       });
+    window.refreshChartTooltip(containerUsers);
+    window.refreshChartTooltip(containerAge);
+    if (window.refreshDataTable) window.refreshDataTable('storyline2');
   }
 
   // Controls
@@ -327,6 +335,17 @@ function initStoryline2(roadUserData, ageData) {
   const playBtn = document.getElementById('s2-play-btn');
   const btnHosp = document.getElementById('s2-btn-hosp');
   const btnBeds = document.getElementById('s2-btn-beds');
+
+  function stopPlayback() {
+    isPlaying = false;
+    if (playInterval) clearInterval(playInterval);
+    playInterval = null;
+    if (playBtn) {
+      playBtn.textContent = '▶';
+      playBtn.setAttribute('aria-label', 'Play timeline animation');
+      playBtn.title = 'Play timeline animation';
+    }
+  }
 
   if (slider && yearBadge) {
     slider.addEventListener('input', (e) => {
@@ -341,6 +360,8 @@ function initStoryline2(roadUserData, ageData) {
     playBtn.addEventListener('click', () => {
       isPlaying = !isPlaying;
       playBtn.textContent = isPlaying ? '⏸' : '▶';
+      playBtn.setAttribute('aria-label', isPlaying ? 'Pause timeline animation' : 'Play timeline animation');
+      playBtn.title = isPlaying ? 'Pause timeline animation' : 'Play timeline animation';
 
       if (isPlaying) {
         playInterval = setInterval(() => {
@@ -353,6 +374,7 @@ function initStoryline2(roadUserData, ageData) {
         }, 1150);
       } else {
         clearInterval(playInterval);
+        playInterval = null;
       }
     });
   }
@@ -361,6 +383,8 @@ function initStoryline2(roadUserData, ageData) {
     btnHosp.addEventListener('click', () => {
       btnHosp.classList.add('active');
       btnBeds.classList.remove('active');
+      btnHosp.setAttribute('aria-pressed', 'true');
+      btnBeds.setAttribute('aria-pressed', 'false');
       activeMeasure = 'Hospitalisations';
       window.AppState.activeMeasureS2 = activeMeasure;
       updateCharts();
@@ -369,11 +393,28 @@ function initStoryline2(roadUserData, ageData) {
     btnBeds.addEventListener('click', () => {
       btnBeds.classList.add('active');
       btnHosp.classList.remove('active');
+      btnBeds.setAttribute('aria-pressed', 'true');
+      btnHosp.setAttribute('aria-pressed', 'false');
       activeMeasure = 'BedDays';
       window.AppState.activeMeasureS2 = activeMeasure;
       updateCharts();
     });
   }
+
+  window.reset2 = () => {
+    stopPlayback();
+    activeYear = 2021;
+    activeMeasure = 'Hospitalisations';
+    window.AppState.activeYearS2 = activeYear;
+    window.AppState.activeMeasureS2 = activeMeasure;
+    if (slider) slider.value = activeYear;
+    if (yearBadge) yearBadge.textContent = activeYear;
+    if (btnHosp) btnHosp.classList.add('active');
+    if (btnBeds) btnBeds.classList.remove('active');
+    if (btnHosp) btnHosp.setAttribute('aria-pressed', 'true');
+    if (btnBeds) btnBeds.setAttribute('aria-pressed', 'false');
+    updateCharts();
+  };
 
   updateCharts();
 }

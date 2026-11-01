@@ -1,3 +1,8 @@
+/* ==========================================================================
+   CrashMetrics Australia — COS30045 Data Visualisation
+   Design System: Atmospheric Framed Hero (designsample3.mp4 / webdesign.webp)
+   + Tactile Alabaster & Charcoal Bento Workspace (dashboarddesign.webp / bikerental.webp)
+   ========================================================================== */
 
 :root {
   /* Outer & Tactile Workspace Surfaces */
@@ -21,7 +26,7 @@
   --ink-on-dark: #F8FAFC;
   --ink-on-dark-muted: #94A3B8;
 
-  /* Accents & Semantic Badge Tokens  */
+  /* Accents & Semantic Badge Tokens (dashboarddesign.webp & bikerental.webp) */
   --accent-amber: #F59E0B;
   --accent-amber-deep: #D97706;
   --accent-emerald: #10B981;
@@ -35,7 +40,18 @@
   --pill-amber-bg: #FFF4D6;
   --pill-amber-text: #B45309;
 
-  /* Typography Families  */
+  --chart-bar-primary: #181B20;
+  --chart-bar-neutral: #64748B;
+  --chart-focus: #F59E0B;
+  --chart-line: #181B20;
+  --bg-strip-light: #F4F5F7;
+  --bg-strip-white: #FFFFFF;
+  --strip-line: #E2E5EC;
+  --strip-segment-active: #14171A;
+  --strip-icon-bg: #111417;
+  --strip-icon-fg: #FFFFFF;
+
+  /* Typography Families (No programmer monospace!) */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
 
@@ -79,7 +95,7 @@ body {
 }
 
 /* ==========================================================================
-   Preloader Overlay (Framed Counter Style)
+   Preloader Overlay (designsample3.mp4 Framed Counter Style)
    ========================================================================== */
 #preloader {
   position: fixed;
@@ -220,6 +236,15 @@ body {
   flex-wrap: wrap;
 }
 
+.hero-nav-actions {
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
 .brand-mark {
   display: inline-flex;
   align-items: center;
@@ -277,6 +302,7 @@ body {
 }
 
 .hero-nav-links .nav-link {
+  position: relative;
   color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   font-size: 0.88rem;
@@ -284,9 +310,28 @@ body {
   transition: color 0.2s ease;
 }
 
+.hero-nav-links .nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.3rem;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
 .hero-nav-links .nav-link:hover,
+.hero-nav-links .nav-link:focus-visible,
 .hero-nav-links .nav-link.active {
   color: #FFFFFF;
+}
+
+.hero-nav-links .nav-link:hover::after,
+.hero-nav-links .nav-link:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .hero-cta-pill {
@@ -539,7 +584,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Lower Architectural 3-Column Bento Strip */
+/* Lower Architectural 3-Column Bento Strip (webdesign.webp bottom strip) */
 .hero-bento-strip {
   display: grid;
   grid-template-columns: 1.35fr 0.85fr 1fr;
@@ -555,11 +600,11 @@ body {
 }
 
 .strip-light {
-  background: #F4F5F7;
+  background: var(--bg-strip-light);
 }
 
 .strip-white {
-  background: #FFFFFF;
+  background: var(--bg-strip-white);
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
@@ -611,8 +656,8 @@ body {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #111417;
-  color: #FFFFFF;
+  background: var(--strip-icon-bg);
+  color: var(--strip-icon-fg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -634,12 +679,12 @@ body {
 
 .strip-segmented-lines .seg {
   height: 2px;
-  background: #E2E5EC;
+  background: var(--strip-line);
   border-radius: 2px;
 }
 
 .strip-segmented-lines .seg.active {
-  background: #14171A;
+  background: var(--strip-segment-active);
 }
 
 .strip-avatar-cluster {
@@ -870,7 +915,7 @@ body {
 }
 
 /* ==========================================================================
-   Overview Inset Tray (Exact "Overview" nested cards)
+   Overview Inset Tray (Exact dashboarddesign.webp "Overview" nested cards)
    ========================================================================== */
 .overview-inset-tray {
   background: var(--bg-card-recessed);
@@ -1060,6 +1105,22 @@ body {
   }
 }
 
+@media (max-width: 1300px) {
+  .hero-nav {
+    row-gap: 0.8rem;
+  }
+  .hero-nav-actions {
+    order: 2;
+  }
+  .hero-nav-links {
+    order: 1;
+    flex: 0 0 100%;
+    justify-content: center;
+    gap: 1.2rem;
+    margin: 0;
+  }
+}
+
 @media (max-width: 720px) {
   body {
     padding: 0.75rem;
@@ -1071,9 +1132,167 @@ body {
     padding: 1.25rem;
   }
   .hero-nav-links {
-    display: none;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.7rem 0.85rem;
+  }
+  .hero-nav-links .nav-link {
+    font-size: 0.78rem;
   }
   .bento-shell {
     padding: 1.5rem;
+  }
+  .footer-nav-col {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-page-outer: #101317;
+  --bg-shell: #1B2026;
+  --bg-card-white: #222830;
+  --bg-card-recessed: #191E24;
+  --border-light: #343C46;
+  --border-subtle: #2A313A;
+  --ink-primary: #F3F5F7;
+  --ink-secondary: #C0C7D0;
+  --ink-muted: #9AA4B1;
+  --pill-coral-bg: #492C2C;
+  --pill-coral-text: #FF9B91;
+  --pill-green-bg: #203D30;
+  --pill-green-text: #7FE0A6;
+  --pill-amber-bg: #46391F;
+  --pill-amber-text: #FFD27A;
+  --chart-bar-primary: #74839A;
+  --chart-bar-neutral: #8999AD;
+  --chart-line: #F3F5F7;
+  --bg-strip-light: #191E24;
+  --bg-strip-white: #222830;
+  --strip-line: #343C46;
+  --strip-segment-active: #F59E0B;
+  --strip-icon-bg: #F59E0B;
+  --strip-icon-fg: #14171A;
+}
+
+:root[data-theme="high-contrast"] {
+  color-scheme: dark;
+  --bg-page-outer: #000000;
+  --bg-shell: #000000;
+  --bg-card-white: #000000;
+  --bg-card-recessed: #111111;
+  --bg-card-dark: #000000;
+  --bg-card-dark-elevated: #111111;
+  --border-light: #FFFFFF;
+  --border-subtle: #FFFFFF;
+  --border-dark: #FFFFFF;
+  --ink-primary: #FFFFFF;
+  --ink-secondary: #FFFFFF;
+  --ink-muted: #FFFFFF;
+  --accent-amber: #FFFF00;
+  --accent-amber-deep: #FFFF00;
+  --accent-emerald: #00FFFF;
+  --accent-coral: #FF8C00;
+  --accent-slate: #000000;
+  --pill-coral-bg: #000000;
+  --pill-coral-text: #FFFF00;
+  --pill-green-bg: #000000;
+  --pill-green-text: #00FFFF;
+  --pill-amber-bg: #000000;
+  --pill-amber-text: #FFFF00;
+  --chart-bar-primary: #FFFF00;
+  --chart-bar-neutral: #FFFFFF;
+  --chart-focus: #00FFFF;
+  --chart-line: #FFFFFF;
+  --bg-strip-light: #000000;
+  --bg-strip-white: #000000;
+  --strip-line: #FFFFFF;
+  --strip-segment-active: #FFFF00;
+  --strip-icon-bg: #FFFF00;
+  --strip-icon-fg: #000000;
+}
+
+:root[data-theme="color-blind"] {
+  color-scheme: light;
+  --accent-amber: #E69F00;
+  --accent-amber-deep: #8A4B00;
+  --accent-emerald: #0072B2;
+  --accent-coral: #D55E00;
+  --accent-slate: #264653;
+  --pill-coral-bg: #FBE3D5;
+  --pill-coral-text: #8C2D04;
+  --pill-green-bg: #DCEEF8;
+  --pill-green-text: #00557A;
+  --pill-amber-bg: #FFF2CC;
+  --pill-amber-text: #704900;
+  --chart-bar-primary: #264653;
+  --chart-bar-neutral: #0072B2;
+  --chart-focus: #D55E00;
+  --chart-line: #264653;
+  --strip-line: #BCCBD4;
+  --strip-segment-active: #E69F00;
+  --strip-icon-bg: #264653;
+  --strip-icon-fg: #FFFFFF;
+}
+
+:root[data-theme="system"] {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    --bg-page-outer: #101317;
+    --bg-shell: #1B2026;
+    --bg-card-white: #222830;
+    --bg-card-recessed: #191E24;
+    --border-light: #343C46;
+    --border-subtle: #2A313A;
+    --ink-primary: #F3F5F7;
+    --ink-secondary: #C0C7D0;
+    --ink-muted: #9AA4B1;
+    --pill-coral-bg: #492C2C;
+    --pill-coral-text: #FF9B91;
+    --pill-green-bg: #203D30;
+    --pill-green-text: #7FE0A6;
+    --pill-amber-bg: #46391F;
+    --pill-amber-text: #FFD27A;
+    --chart-bar-primary: #74839A;
+    --chart-bar-neutral: #8999AD;
+    --chart-line: #F3F5F7;
+    --bg-strip-light: #191E24;
+    --bg-strip-white: #222830;
+    --strip-line: #343C46;
+    --strip-segment-active: #F59E0B;
+    --strip-icon-bg: #F59E0B;
+    --strip-icon-fg: #14171A;
+  }
+}
+
+:root[data-theme="dark"] body {
+  background: linear-gradient(180deg, #12161B 0%, #171C22 45%, #101317 100%);
+}
+
+:root[data-theme="high-contrast"] body {
+  background: #000000;
+}
+
+:root[data-theme="color-blind"] body {
+  background: linear-gradient(180deg, #F2F6F8 0%, #FFFFFF 45%, #EAF1F5 100%);
+}
+
+:root[data-theme="high-contrast"] :focus-visible {
+  outline: 3px solid #00FFFF !important;
+  outline-offset: 3px;
+}
+
+:root[data-theme="high-contrast"] a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] body {
+    background: linear-gradient(180deg, #12161B 0%, #171C22 45%, #101317 100%);
   }
 }

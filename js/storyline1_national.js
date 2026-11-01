@@ -144,7 +144,34 @@ function initStoryline1(data) {
       exit => exit.remove()
     );
 
+    pointsGroup.selectAll('.data-point')
+      .on('mouseenter', (event, d) => {
+        const baseline = data[0][currentMeasure];
+        const diffFromBaseline = ((d[currentMeasure] - baseline) / baseline) * 100;
+        const baselinePill = diffFromBaseline >= 0
+          ? `<span class="delta-pill up">+${diffFromBaseline.toFixed(1)}% vs 2011</span>`
+          : `<span class="delta-pill stable">${diffFromBaseline.toFixed(1)}% vs 2011</span>`;
+        window.showTooltip(event, `
+          <div class="tooltip-header">
+            <span class="tooltip-tag">National Cohort</span>
+            <span class="tooltip-badge">${d.Year}</span>
+          </div>
+          <div class="tooltip-title">${currentMeasure === 'Hospitalisations' ? 'Road Crash Admissions' : 'Hospital Bed Days'}</div>
+          <div class="tooltip-metric-row">
+            <span class="tooltip-value">${window.formatNumber(d[currentMeasure])}</span>
+            ${baselinePill}
+          </div>
+          <div class="tooltip-extra">
+            Admissions: <strong>${window.formatNumber(d.Hospitalisations)}</strong><br>
+            Bed Days: <strong>${window.formatNumber(d.BedDays)}</strong><br>
+            Average Length of Stay: <strong>${(d.BedDays / d.Hospitalisations).toFixed(1)} days / patient</strong>
+          </div>
+        `);
+      })
+      .on('mouseleave', () => window.hideTooltip());
+
     renderAnnotations(measure);
+    if (window.refreshDataTable) window.refreshDataTable('storyline1');
   }
 
   function renderAnnotations(measure) {
@@ -175,8 +202,8 @@ function initStoryline1(data) {
         .attr('cx', x)
         .attr('cy', y)
         .attr('r', 5)
-        .attr('fill', '#F59E0B')
-        .attr('stroke', '#FFFFFF')
+        .attr('fill', 'var(--accent-amber)')
+        .attr('stroke', 'var(--bg-card-white)')
         .attr('stroke-width', 2);
 
       const textWidth = anno.label.length * 6.4 + 20;
@@ -268,10 +295,16 @@ function initStoryline1(data) {
     const isHosp = measure === 'Hospitalisations';
     if (btnHosp) btnHosp.classList.toggle('active', isHosp);
     if (btnBeds) btnBeds.classList.toggle('active', !isHosp);
+    if (btnHosp) btnHosp.setAttribute('aria-pressed', String(isHosp));
+    if (btnBeds) btnBeds.setAttribute('aria-pressed', String(!isHosp));
     if (cardHosp) cardHosp.classList.toggle('active-inset', isHosp);
     if (cardBeds) cardBeds.classList.toggle('active-inset', !isHosp);
+    if (cardHosp) cardHosp.setAttribute('aria-pressed', String(isHosp));
+    if (cardBeds) cardBeds.setAttribute('aria-pressed', String(!isHosp));
     updateChart(measure);
   }
+
+  window.reset1 = () => setMeasureS1('Hospitalisations');
 
   if (btnHosp) btnHosp.addEventListener('click', () => setMeasureS1('Hospitalisations'));
   if (btnBeds) btnBeds.addEventListener('click', () => setMeasureS1('BedDays'));

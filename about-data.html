@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data source, coverage, measures, and interpretation notes for the CrashMetrics Australia dashboard.">
+  <title>About the Data — CrashMetrics Australia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script src="js/theme.js" defer></script>
+</head>
+<body>
+  <div class="page-shell info-page-shell">
+    <header class="info-page-nav">
+      <a href="index.html#top" class="brand-mark info-brand-mark">
+        <span class="brand-dot-cluster" aria-hidden="true">
+          <span class="dot-amber"></span>
+          <span class="dot-amber-sm"></span>
+        </span>
+        <span class="brand-name">CrashMetrics</span>
+        <span class="brand-tag">AIHW 2011–21</span>
+      </a>
+      <nav class="info-page-links" aria-label="Primary Navigation">
+        <a href="about.html">About</a>
+        <a href="about-data.html" aria-current="page">About Data</a>
+        <a href="index.html">Dashboard</a>
+        <div class="nav-accessibility-controls">
+          <span class="sr-only" id="accessibility-controls-help">Use Left and Right Arrow keys to move through the header navigation. Choose System, Light, Dark, High contrast, or Color-blind-friendly from the theme dropdown. Tab and Shift+Tab are also available.</span>
+          <label class="theme-control">
+            <span>Theme:</span>
+            <select id="theme-selector" class="theme-control-select" aria-describedby="accessibility-controls-help">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="high-contrast">High contrast</option>
+              <option value="color-blind">Color-blind-friendly</option>
+            </select>
+          </label>
+          <label class="page-magnification-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="10.8" cy="10.8" r="6.3"></circle>
+              <path d="m15.4 15.4 5 5"></path>
+            </svg>
+            <span class="sr-only">Page magnification</span>
+            <select id="page-magnification" aria-describedby="accessibility-controls-help">
+              <option value="fit">Fit</option>
+              <option value="75">75%</option>
+              <option value="90">90%</option>
+              <option value="100">100%</option>
+              <option value="110">110%</option>
+            </select>
+          </label>
+        </div>
+      </nav>
+    </header>
+
+    <main class="bento-workspace">
+      <section class="storyline-block" aria-labelledby="about-data-title">
+        <div class="bento-shell about-data-shell">
+          <div class="bento-header">
+            <div class="bento-title-group">
+              <div class="eyebrow-row">
+                <span class="section-num-pill">DATA</span>
+                <span class="section-eyebrow">Sources, measures &amp; interpretation</span>
+              </div>
+              <h1 id="about-data-title" class="bento-title">About the data</h1>
+              <p class="about-data-intro">A brief guide to what these visualisations include and how to interpret the figures.</p>
+            </div>
+          </div>
+
+          <div class="about-data-grid">
+            <article class="about-data-card">
+              <span class="about-data-index">01</span>
+              <h2>Source</h2>
+              <p>Australian Institute of Health and Welfare (AIHW), National Hospital Morbidity Database (NHMD). The dashboard uses the project’s prepared annual datasets.</p>
+            </article>
+            <article class="about-data-card">
+              <span class="about-data-index">02</span>
+              <h2>Coverage</h2>
+              <p>Australian road-crash hospitalisation records from 2011 to 2021, shown nationally and across states and territories, road-user groups, age groups, and First Nations views.</p>
+            </article>
+            <article class="about-data-card">
+              <span class="about-data-index">03</span>
+              <h2>Measures</h2>
+              <p>Hospitalisations count admissions; bed days represent inpatient days associated with those admissions. Some summary figures note the exclusion of deaths within 30 days.</p>
+            </article>
+          </div>
+
+          <div class="about-data-notes">
+            <div>
+              <h2>How to read the figures</h2>
+              <p>These are recorded counts, not population-adjusted rates. Differences in totals between jurisdictions may reflect population size as well as underlying patterns, and the records do not represent every road crash or injury.</p>
+            </div>
+            <div class="about-suppression-note">
+              <span class="about-suppression-mark" aria-hidden="true"></span>
+              <p><strong>Suppressed values:</strong> “n.p.” means a value is not published to protect privacy. It is not zero; hatched marks identify these values in the First Nations charts.</p>
+            </div>
+          </div>
+
+          <section class="about-data-faq" aria-labelledby="about-data-faq-title">
+            <div class="about-data-faq-heading">
+              <span class="section-eyebrow">Questions &amp; answers</span>
+              <h2 id="about-data-faq-title">Understanding the data</h2>
+            </div>
+            <div class="about-data-faq-list">
+              <details class="about-data-faq-item">
+                <summary>What do these measures mean?</summary>
+                <div class="about-data-faq-answer">
+                  <p><strong>Hospitalisations</strong> are the number of hospital admissions in the dataset. <strong>Bed days</strong> count inpatient days associated with those admissions. They describe different things: a longer stay can contribute more bed days without adding another admission.</p>
+                </div>
+              </details>
+              <details class="about-data-faq-item">
+                <summary>Can every year be compared directly?</summary>
+                <div class="about-data-faq-answer">
+                  <p>Use year-to-year comparisons as a guide, not as proof that every change reflects a change in road safety. The dashboard marks known comparability breaks and notable context, including changes in reporting and the 2020 pandemic period. Check these annotations when interpreting a trend.</p>
+                </div>
+              </details>
+              <details class="about-data-faq-item">
+                <summary>Why do the chart totals differ?</summary>
+                <div class="about-data-faq-answer">
+                  <p>Charts show different measures, years, and breakdowns. A national total, a selected state, and a road-user or age-group category do not have the same scope. Some First Nations breakdown values are suppressed as <strong>n.p.</strong>, so a visible subtotal may not equal a chart’s overall total.</p>
+                </div>
+              </details>
+              <details class="about-data-faq-item">
+                <summary>What can counts tell us about risk?</summary>
+                <div class="about-data-faq-answer">
+                  <p>Counts show how many admissions were recorded; they are not population-adjusted rates. A larger count does not by itself mean an individual in that group had a higher risk. Population size, travel exposure, and other context would be needed to compare risk fairly.</p>
+                </div>
+              </details>
+              <details class="about-data-faq-item">
+                <summary>References and reuse</summary>
+                <div class="about-data-faq-answer">
+                  <p>Bureau of Infrastructure and Transport Research Economics. (2023, September 22). <em>Hospitalised injury</em> [Data set]. <a href="https://www.bitre.gov.au/resource/road-safety/hospitalised-injury" target="_blank" rel="noopener noreferrer">https://www.bitre.gov.au/resource/road-safety/hospitalised-injury</a></p>
+                  <p>Bureau of Infrastructure and Transport Research Economics. (2023, September). <em>Data dictionary: Hospitalised injuries from road crashes</em>. <a href="https://www.bitre.gov.au/sites/default/files/documents/hospitalised-injury-data-dictionary-september-2023.pdf" target="_blank" rel="noopener noreferrer">Data dictionary PDF</a>.</p>
+                  <p>Prepared extracts supplied by Group 16. Original datasets remain subject to their publishers’ terms. D3.js is distributed under the ISC licence; Manrope is distributed under the SIL Open Font License.</p>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <div class="section-actions info-page-actions">
+            <a class="utility-btn" href="index.html">Return to dashboard</a>
+            <a class="utility-btn" href="about.html">About this dashboard</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="editorial-footer info-page-footer">
+      <div class="footer-brand-col">
+        <span class="footer-logo">CrashMetrics Australia</span>
+        <p class="footer-meta">Source: Australian Institute of Health and Welfare (AIHW) National Hospital Morbidity Database (NHMD).</p>
+      </div>
+      <nav class="footer-nav-col" aria-label="Footer Navigation">
+        <a href="index.html">Dashboard</a>
+        <a href="about.html">About</a>
+      </nav>
+    </footer>
+  </div>
+</body>
+</html>

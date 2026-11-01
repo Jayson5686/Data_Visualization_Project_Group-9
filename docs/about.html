@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about the CrashMetrics Australia road hospitalisation dashboard and how to explore its storylines.">
+  <title>About — CrashMetrics Australia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script src="js/theme.js" defer></script>
+</head>
+<body>
+  <div class="page-shell info-page-shell">
+    <header class="info-page-nav">
+      <a href="index.html#top" class="brand-mark info-brand-mark">
+        <span class="brand-dot-cluster" aria-hidden="true">
+          <span class="dot-amber"></span>
+          <span class="dot-amber-sm"></span>
+        </span>
+        <span class="brand-name">CrashMetrics</span>
+        <span class="brand-tag">AIHW 2011–21</span>
+      </a>
+      <nav class="info-page-links" aria-label="Primary Navigation">
+        <a href="about.html" aria-current="page">About</a>
+        <a href="about-data.html">About Data</a>
+        <a href="index.html">Dashboard</a>
+        <div class="nav-accessibility-controls">
+          <span class="sr-only" id="accessibility-controls-help">Use Left and Right Arrow keys to move through the header navigation. Choose System, Light, Dark, High contrast, or Color-blind-friendly from the theme dropdown. Tab and Shift+Tab are also available.</span>
+          <label class="theme-control">
+            <span>Theme:</span>
+            <select id="theme-selector" class="theme-control-select" aria-describedby="accessibility-controls-help">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="high-contrast">High contrast</option>
+              <option value="color-blind">Color-blind-friendly</option>
+            </select>
+          </label>
+          <label class="page-magnification-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="10.8" cy="10.8" r="6.3"></circle>
+              <path d="m15.4 15.4 5 5"></path>
+            </svg>
+            <span class="sr-only">Page magnification</span>
+            <select id="page-magnification" aria-describedby="accessibility-controls-help">
+              <option value="fit">Fit</option>
+              <option value="75">75%</option>
+              <option value="90">90%</option>
+              <option value="100">100%</option>
+              <option value="110">110%</option>
+            </select>
+          </label>
+        </div>
+      </nav>
+    </header>
+
+    <main class="bento-workspace">
+      <section class="storyline-block" aria-labelledby="about-title">
+        <div class="bento-shell about-shell">
+          <div class="about-section-heading">
+            <div class="eyebrow-row">
+              <span class="section-num-pill">WELCOME</span>
+              <span class="section-eyebrow">CrashMetrics Australia · 2011–2021</span>
+            </div>
+            <h1 id="about-title" class="bento-title">A closer look at road trauma and hospital care</h1>
+            <p class="about-heading-copy">Explore how road-crash hospitalisations changed over time, who was affected, and how patterns differed across Australia.</p>
+          </div>
+
+          <div class="about-overview-grid">
+            <article class="about-intro-card">
+              <span class="about-card-kicker">About this dashboard</span>
+              <h2>Turning a decade of records into a guided story</h2>
+              <p>
+                CrashMetrics brings together national trends, road-user and age-group comparisons, state and territory patterns, and First Nations hospitalisation data. Use the interactive views to explore changes and compare measures; each storyline also includes a data table.
+              </p>
+
+              <div class="about-reading-guide">
+                <h3>How to explore the story</h3>
+                <ol class="about-step-list">
+                  <li>
+                    <span class="about-step-number">01</span>
+                    <span><strong>Start with the national trend</strong><small>See how admissions and bed days changed across the years.</small></span>
+                  </li>
+                  <li>
+                    <span class="about-step-number">02</span>
+                    <span><strong>Compare groups and places</strong><small>Use the linked controls to explore road users, ages, and jurisdictions.</small></span>
+                  </li>
+                  <li>
+                    <span class="about-step-number">03</span>
+                    <span><strong>Read values in context</strong><small>Check the notes and data tables, including explanations for suppressed values.</small></span>
+                  </li>
+                </ol>
+              </div>
+            </article>
+
+            <aside class="about-explore-card" aria-labelledby="about-explore-title">
+              <div class="about-explore-heading">
+                <span class="about-card-kicker">Choose a storyline</span>
+                <h2 id="about-explore-title">Explore the analysis</h2>
+              </div>
+              <div class="about-story-links">
+                <a class="about-story-link" href="index.html#storyline1">
+                  <span class="about-story-number">01</span>
+                  <span><strong>National trends</strong><small>Admissions and bed days over time</small></span>
+                  <span class="about-story-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="about-story-link" href="index.html#storyline2">
+                  <span class="about-story-number">02</span>
+                  <span><strong>Road users &amp; age</strong><small>Compare groups and hospital bed use</small></span>
+                  <span class="about-story-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="about-story-link" href="index.html#storyline3">
+                  <span class="about-story-number">03</span>
+                  <span><strong>State patterns</strong><small>Explore jurisdiction-level variation</small></span>
+                  <span class="about-story-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="about-story-link" href="index.html#storyline4">
+                  <span class="about-story-number">04</span>
+                  <span><strong>First Nations</strong><small>Review patterns across years and groups</small></span>
+                  <span class="about-story-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+              <a class="about-data-link" href="about-data.html">Understand the data behind the dashboard <span aria-hidden="true">→</span></a>
+            </aside>
+          </div>
+
+          <section class="about-team-section" aria-labelledby="about-team-title">
+            <div class="about-team-heading">
+              <span class="about-card-kicker">Project team</span>
+              <h2 id="about-team-title">Who worked on this project</h2>
+              <p>Everyone involved in the development and analysis of the CrashMetrics Australia dashboard.</p>
+            </div>
+            <div class="about-team-grid">
+              <article class="about-team-member">
+                <span class="about-team-number" aria-hidden="true">01</span>
+                <h3>Jayson Gan Jia Jie</h3>
+                <p class="about-team-role">Web Developer/Assisting</p>
+                <p>In charge of Website Development and assist for KNIME Workflow.</p>
+              </article>
+              <article class="about-team-member">
+                <span class="about-team-number" aria-hidden="true">02</span>
+                <h3>Momona Nakagawa</h3>
+                <p class="about-team-role">Data Analyst/Assisting</p>
+                <p>Responsible for data analysis and support in developing the KNIME workflow.</p>
+              </article>
+              <article class="about-team-member">
+                <span class="about-team-number" aria-hidden="true">03</span>
+                <h3>Gordon Ho Jun Yong</h3>
+                <p class="about-team-role">Report Writer/Assisting</p>
+                <p>Responsible for writing reports and providing assistance in fixing bugs.</p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="editorial-footer info-page-footer">
+      <div class="footer-brand-col">
+        <span class="footer-logo">CrashMetrics Australia</span>
+        <p class="footer-meta">COS30045 Data Visualisation · Interactive Longitudinal Study (2011–2021)</p>
+      </div>
+      <nav class="footer-nav-col" aria-label="Footer Navigation">
+        <a href="index.html">Dashboard</a>
+        <a href="about-data.html">About Data</a>
+      </nav>
+    </footer>
+  </div>
+</body>
+</html>

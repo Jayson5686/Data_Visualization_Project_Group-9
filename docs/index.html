@@ -13,6 +13,7 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
+  <script src="js/theme.js" defer></script>
   
   <!-- D3.js v7 CDN -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -59,13 +60,46 @@
             </a>
 
             <ul class="hero-nav-links">
-              <li><a href="#storyline1" class="nav-link active">National Trends</a></li>
-              <li><a href="#storyline2" class="nav-link">Road Users &amp; Age</a></li>
-              <li><a href="#storyline3" class="nav-link">State Patterns</a></li>
-              <li><a href="#storyline4" class="nav-link">First Nations</a></li>
+              <li><a href="#top" class="nav-link active" aria-current="page">Top ↑</a></li>
+              <li><a href="about.html" class="nav-link">About</a></li>
+              <li><a href="#storyline1" class="nav-link">01 National</a></li>
+              <li><a href="#storyline2" class="nav-link">02 Users &amp; Age</a></li>
+              <li><a href="#storyline3" class="nav-link">03 States</a></li>
+              <li><a href="#storyline4" class="nav-link">04 First Nations</a></li>
+              <li><a href="about-data.html" class="nav-link">About Data</a></li>
             </ul>
 
-            <a href="#storyline1" class="hero-cta-pill">Explore Data</a>
+            <div class="nav-accessibility-controls">
+              <span class="sr-only" id="accessibility-controls-help">Use Left and Right Arrow keys to move through the header navigation. Choose System, Light, Dark, High contrast, or Color-blind-friendly from the theme dropdown. Tab and Shift+Tab are also available.</span>
+              <label class="theme-control">
+                <span>Theme:</span>
+                <select id="theme-selector" class="theme-control-select" aria-describedby="accessibility-controls-help">
+                  <option value="system">System</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="high-contrast">High contrast</option>
+                  <option value="color-blind">Color-blind-friendly</option>
+                </select>
+              </label>
+              <label class="page-magnification-control">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <circle cx="10.8" cy="10.8" r="6.3"></circle>
+                  <path d="m15.4 15.4 5 5"></path>
+                </svg>
+                <span class="sr-only">Page magnification</span>
+                <select id="page-magnification" aria-describedby="accessibility-controls-help">
+                  <option value="fit">Fit</option>
+                  <option value="75">75%</option>
+                  <option value="90">90%</option>
+                  <option value="100">100%</option>
+                  <option value="110">110%</option>
+                </select>
+              </label>
+            </div>
+            <div class="hero-nav-actions">
+              <button type="button" class="nav-help-btn" id="help-button" aria-haspopup="dialog">How to Use</button>
+              <a href="#storyline1" class="hero-cta-pill">Explore Data</a>
+            </div>
           </nav>
 
           <!-- Main Asymmetric Split Content inside Hero Frame -->
@@ -158,8 +192,8 @@
           </div>
           <div class="strip-visual-accent" aria-hidden="true">
             <svg width="110" height="56" viewBox="0 0 110 56" fill="none">
-              <path d="M4 46 C22 45, 34 38, 48 26 C62 14, 74 10, 86 12 C94 14, 100 22, 106 16" stroke="#181B20" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="86" cy="12" r="4" fill="#F59E0B" stroke="#fff" stroke-width="1.5"/>
+              <path d="M4 46 C22 45, 34 38, 48 26 C62 14, 74 10, 86 12 C94 14, 100 22, 106 16" stroke="var(--chart-line)" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="86" cy="12" r="4" fill="var(--accent-amber)" stroke="#fff" stroke-width="1.5"/>
             </svg>
           </div>
         </div>
@@ -220,10 +254,10 @@
 
             <div class="bento-controls">
               <div class="clean-pill-group" role="group" aria-label="Storyline 1 Measure Selector">
-                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s1-btn-hosp">
+                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s1-btn-hosp" aria-pressed="true">
                   Hospitalisations
                 </button>
-                <button class="clean-pill-btn" data-measure="BedDays" id="s1-btn-beds">
+                <button class="clean-pill-btn" data-measure="BedDays" id="s1-btn-beds" aria-pressed="false">
                   Hospital Bed Days
                 </button>
               </div>
@@ -232,7 +266,7 @@
 
           <!-- Nested Overview KPI Cards (Exact dashboarddesign.webp "Overview" inset cards pattern) -->
           <div class="overview-inset-tray">
-            <div class="inset-stat-card active-inset" id="s1-card-hosp" role="button" tabindex="0" aria-label="Select Hospitalisations Measure">
+            <div class="inset-stat-card active-inset" id="s1-card-hosp" role="button" tabindex="0" aria-pressed="true" aria-label="Select Hospitalisations Measure">
               <div class="inset-card-top">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <span>Admitted Patients (2011–2021)</span>
@@ -246,7 +280,7 @@
               </div>
             </div>
 
-            <div class="inset-stat-card" id="s1-card-beds" role="button" tabindex="0" aria-label="Select Hospital Bed Days Measure">
+            <div class="inset-stat-card" id="s1-card-beds" role="button" tabindex="0" aria-pressed="false" aria-label="Select Hospital Bed Days Measure">
               <div class="inset-card-top">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 <span>Occupied Inpatient Bed Days</span>
@@ -270,6 +304,12 @@
 
           <!-- Chart Viewport -->
           <div class="chart-stage" id="chart-storyline1" role="region" aria-label="National Hospitalisation Line Chart"></div>
+          <div class="section-actions">
+            <button type="button" class="utility-btn" data-view-data="storyline1" aria-controls="data-table-storyline1" aria-expanded="false">View Data</button>
+            <button type="button" class="utility-btn" data-download-csv="storyline1" title="Download all national trend data as a CSV file">Download CSV</button>
+            <button type="button" class="utility-btn" data-reset-view="storyline1">Reset View</button>
+          </div>
+          <div class="data-table-panel" id="data-table-storyline1" hidden></div>
 
         </div>
       </section>
@@ -302,8 +342,8 @@
 
               <!-- Measure Toggle -->
               <div class="clean-pill-group" role="group" aria-label="Storyline 2 Measure Selector">
-                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s2-btn-hosp">Admissions</button>
-                <button class="clean-pill-btn" data-measure="BedDays" id="s2-btn-beds">Bed Days</button>
+                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s2-btn-hosp" aria-pressed="true">Admissions</button>
+                <button class="clean-pill-btn" data-measure="BedDays" id="s2-btn-beds" aria-pressed="false">Bed Days</button>
               </div>
             </div>
           </div>
@@ -336,6 +376,12 @@
             </div>
 
           </div>
+          <div class="section-actions">
+            <button type="button" class="utility-btn" data-view-data="storyline2" aria-controls="data-table-storyline2" aria-expanded="false">View Data</button>
+            <button type="button" class="utility-btn" data-download-csv="storyline2" title="Download all road-user and age-group chart data as a CSV file">Download CSV</button>
+            <button type="button" class="utility-btn" data-reset-view="storyline2">Reset View</button>
+          </div>
+          <div class="data-table-panel" id="data-table-storyline2" hidden></div>
 
           <!-- Analytical Footer Strip -->
           <div class="insight-strip">
@@ -352,10 +398,11 @@
            STORYLINE 3: State and Territory Patterns (bikerental.webp Dual-Pane Architecture)
            ======================================================================== -->
       <section id="storyline3" class="storyline-block" aria-labelledby="s3-title">
-        <div class="bento-shell bento-split-shell">
+        <div class="bento-shell state-layout-shell">
+          <div class="state-split-grid">
           
-          <!-- Left Dark Atmospheric Panel (bikerental.webp Left Map/Matrix Pane) -->
-          <div class="split-dark-pane">
+            <!-- Left Dark Atmospheric Panel (bikerental.webp Left Map/Matrix Pane) -->
+            <div class="split-dark-pane">
             <div class="dark-pane-header">
               <div>
                 <div class="eyebrow-row">
@@ -367,8 +414,8 @@
               </div>
 
               <div class="clean-pill-group dark-pill-group" role="group" aria-label="Storyline 3 Measure Selector">
-                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s3-btn-hosp">Admissions</button>
-                <button class="clean-pill-btn" data-measure="BedDays" id="s3-btn-beds">Bed Days</button>
+                <button class="clean-pill-btn active" data-measure="Hospitalisations" id="s3-btn-hosp" aria-pressed="true">Admissions</button>
+                <button class="clean-pill-btn" data-measure="BedDays" id="s3-btn-beds" aria-pressed="false">Bed Days</button>
               </div>
             </div>
 
@@ -390,8 +437,8 @@
             </div>
           </div>
 
-          <!-- Right Warm Alabaster Detail Panel (bikerental.webp Right "Urban City Bike / Latest Journeys" Pane) -->
-          <div class="split-light-pane">
+            <!-- Right Warm Alabaster Detail Panel (bikerental.webp Right "Urban City Bike / Latest Journeys" Pane) -->
+            <div class="split-light-pane">
             <div class="light-pane-top">
               <div>
                 <span class="light-pane-eyebrow">Selected Jurisdiction Focus</span>
@@ -473,8 +520,14 @@
               </div>
 
             </div>
+              <div class="section-actions">
+                <button type="button" class="utility-btn" data-view-data="storyline3" aria-controls="data-table-storyline3" aria-expanded="false">View Data</button>
+                <button type="button" class="utility-btn" data-download-csv="storyline3" title="Download all state and territory chart data as a CSV file">Download CSV</button>
+                <button type="button" class="utility-btn" data-reset-view="storyline3">Reset View</button>
+              </div>
+            </div>
           </div>
-
+          <div class="data-table-panel" id="data-table-storyline3" hidden></div>
         </div>
       </section>
 
@@ -511,7 +564,7 @@
               <div class="sub-card-header">
                 <div>
                   <h3 class="sub-card-title">Annual First Nations Hospitalisations (2011–2021)</h3>
-                  <p class="sub-card-subtitle">Click any year node on the curve to filter the mode and age charts below</p>
+                  <p class="sub-card-subtitle">Preview each year as it changes; click a point to select its mode and age breakdowns</p>
                 </div>
                 <span class="chip-tag">National NHMD Cohort</span>
               </div>
@@ -566,10 +619,15 @@
             </div>
 
           </div>
+          <div class="section-actions">
+            <button type="button" class="utility-btn" data-view-data="storyline4" aria-controls="data-table-storyline4" aria-expanded="false">View Data</button>
+            <button type="button" class="utility-btn" data-download-csv="storyline4" title="Download all First Nations chart data as a CSV file">Download CSV</button>
+            <button type="button" class="utility-btn" data-reset-view="storyline4">Reset View</button>
+          </div>
+          <div class="data-table-panel" id="data-table-storyline4" hidden></div>
 
         </div>
       </section>
-
     </main>
 
     <!-- Minimalist Editorial Footer -->
@@ -583,35 +641,64 @@
       </div>
       <div class="footer-nav-col">
         <a href="#top">Top ↑</a>
+        <a href="about.html">About</a>
         <a href="#storyline1">01 National</a>
         <a href="#storyline2">02 Users &amp; Age</a>
         <a href="#storyline3">03 States</a>
         <a href="#storyline4">04 First Nations</a>
+        <a href="about-data.html">About Data</a>
       </div>
     </footer>
 
   </div>
+
+  <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+    <div class="help-dialog-header">
+      <h2 id="help-title">How to Use CrashMetrics</h2>
+      <button type="button" class="utility-btn" id="help-close" aria-label="Close help">Close</button>
+    </div>
+    <ul>
+      <li>Use <strong>Tab</strong> to move between controls and <strong>arrow keys</strong> to adjust a focused year slider.</li>
+      <li>Use the playback button to animate years; select it again to pause.</li>
+      <li>Choose a state from the dropdown or select a heatmap row to inspect its trajectory.</li>
+      <li>Focus a chart mark and use <strong>Left/Right Arrow</strong> to move backward or forward through its data; line-chart points follow year order. Press <strong>Enter</strong> on an interactive mark to select it.</li>
+      <li>Focus or point to chart marks for details. Press <strong>Esc</strong> to dismiss a tooltip.</li>
+      <li>Hatched <strong>n.p.</strong> values are not published to protect privacy; they are not zero.</li>
+    </ul>
+    <button type="button" class="utility-btn help-tour-start" id="help-tour-start">Still don't get it? Start the step-by-step tour</button>
+    <section class="help-tour" id="help-tour" aria-labelledby="help-tour-title" hidden>
+      <div class="help-tour-progress" id="help-tour-progress" role="status" aria-live="polite"></div>
+      <h3 id="help-tour-title" tabindex="-1"></h3>
+      <p id="help-tour-copy"></p>
+      <a class="utility-btn help-tour-link" id="help-tour-link"></a>
+      <div class="help-tour-controls">
+        <button type="button" class="utility-btn" id="help-tour-back">Back</button>
+        <button type="button" class="utility-btn" id="help-tour-next">Next</button>
+      </div>
+      <button type="button" class="help-tour-return" id="help-tour-return">Back to quick tips</button>
+    </section>
+  </dialog>
 
   <!-- Shared SVG Defs for Soft Gradients & Diagonal Hatching -->
   <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
     <defs>
       <!-- Soft Warm Amber Gradient for Storyline 1 & State Line -->
       <linearGradient id="area-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.28"/>
-        <stop offset="85%" stop-color="#F59E0B" stop-opacity="0.03"/>
-        <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+        <stop offset="0%" stop-color="var(--accent-amber)" stop-opacity="0.28"/>
+        <stop offset="85%" stop-color="var(--accent-amber)" stop-opacity="0.03"/>
+        <stop offset="100%" stop-color="var(--accent-amber)" stop-opacity="0"/>
       </linearGradient>
 
       <!-- Soft Emerald Gradient for Active Vertical Bars (dashboarddesign.webp style) -->
       <linearGradient id="emerald-bar-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#34D399"/>
-        <stop offset="100%" stop-color="#10B981" stop-opacity="0.75"/>
+        <stop offset="0%" stop-color="var(--accent-emerald)"/>
+        <stop offset="100%" stop-color="var(--accent-emerald)" stop-opacity="0.75"/>
       </linearGradient>
 
       <!-- Diagonal Hatch Pattern for Suppressed n.p. Records -->
       <pattern id="diagonal-hatch-pattern" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-        <rect width="8" height="8" fill="#FFF1F0"/>
-        <line x1="0" y1="0" x2="0" y2="8" stroke="#F43F5E" stroke-width="2" stroke-opacity="0.65" />
+        <rect class="np-hatch-background" width="8" height="8" fill="#FFF1F0"/>
+        <line class="np-hatch-line" x1="0" y1="0" x2="0" y2="8" stroke="#F43F5E" stroke-width="2" stroke-opacity="0.65" />
       </pattern>
     </defs>
   </svg>
