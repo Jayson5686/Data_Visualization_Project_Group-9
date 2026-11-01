@@ -937,8 +937,17 @@
 
 .nav-accessibility-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.language-control .theme-control-select {
+  max-width: 9rem;
+}
+
+.language-control {
+  white-space: normal;
 }
 
 .page-magnification-control {
@@ -1453,6 +1462,59 @@
 
 .info-page-nav .page-magnification-control {
   padding: 0 0.45rem;
+}
+
+html[data-language="zh-CN"],
+html[data-language="ja"] {
+  font-family: "Noto Sans CJK SC", "Noto Sans JP", "Microsoft YaHei", "Yu Gothic", sans-serif;
+  letter-spacing: normal;
+}
+
+html[data-language="zh-CN"] body,
+html[data-language="ja"] body {
+  font-family: "Noto Sans CJK SC", "Noto Sans JP", "Microsoft YaHei", "Yu Gothic", sans-serif;
+  line-height: 1.65;
+}
+
+html[data-language="ms"] .info-page-nav,
+html[data-language="ms"] .info-page-links,
+html[data-language="ms"] .nav-accessibility-controls {
+  gap: 0.55rem 0.75rem;
+}
+
+html[data-language="ms"] .info-page-links a,
+html[data-language="ms"] .hero-nav-links .nav-link {
+  overflow-wrap: anywhere;
+}
+
+html[data-language="zh-CN"] .hero-nav-links,
+html[data-language="ja"] .hero-nav-links,
+html[data-language="ms"] .hero-nav-links {
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+}
+
+html[data-language="zh-CN"] .hero-nav-actions,
+html[data-language="ja"] .hero-nav-actions,
+html[data-language="ms"] .hero-nav-actions {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+html[data-language="zh-CN"] .about-story-link,
+html[data-language="ja"] .about-story-link,
+html[data-language="ms"] .about-story-link {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+html[data-language="zh-CN"] .bento-title,
+html[data-language="ja"] .bento-title,
+html[data-language="ms"] .bento-title,
+html[data-language="zh-CN"] .sub-card-title,
+html[data-language="ja"] .sub-card-title,
+html[data-language="ms"] .sub-card-title {
+  overflow-wrap: anywhere;
 }
 
 .info-page-actions {

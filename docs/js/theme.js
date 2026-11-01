@@ -71,12 +71,12 @@ function initializePageMagnification() {
 }
 
 function initializePrimaryNavigationKeyboard() {
-  document.querySelectorAll('.hero-nav, .info-page-links').forEach(navigation => {
+  document.querySelectorAll('.hero-nav-links, .info-page-links, .footer-nav-col').forEach(navigation => {
     navigation.addEventListener('keydown', event => {
       if ((event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') ||
           event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
 
-      const items = [...navigation.querySelectorAll('a[href], button:not([disabled]), select:not([disabled])')]
+      const items = [...navigation.querySelectorAll('a[href]')]
         .filter(item => item.getClientRects().length > 0);
       const currentIndex = items.indexOf(event.target);
       if (currentIndex === -1 || items.length < 2) return;
