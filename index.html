@@ -13,6 +13,11 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
+  <script>
+    if (new URLSearchParams(window.location.search).get("dashboard") !== "1") {
+      window.location.replace("about.html");
+    }
+  </script>
   <script src="js/theme.js" defer></script>
   
   <!-- D3.js v7 CDN -->

@@ -10,7 +10,7 @@ An interactive, responsive, and accessible editorial data visualisation web appl
 Modern web browsers block loading local data files (`d3.csv()`) directly from `file:///` URLs due to CORS security rules. Therefore, the app must be served via any local HTTP server.
 
 ### Option 1: Quick Double-Click (Windows)
-Double-click **`start_app.bat`**. It will automatically spin up the local server and open your default browser to **`http://localhost:8000`**.
+Double-click **`start_app.bat`**. It will automatically spin up the local server and open your default browser to the dashboard at **`http://localhost:8000/index.html?dashboard=1`**. When the site is opened at its normal entry URL, it starts on the About page; use the About Data link to view the data information second.
 
 ### Option 2: Using Python (Windows, macOS, Linux)
 Open a terminal in this project folder and run:
@@ -23,7 +23,7 @@ Then open your browser and navigate to: **`http://localhost:8000`**
 If you use Visual Studio Code:
 1. Open this folder in VS Code.
 2. Install the **Live Server** extension (by Ritwick Dey).
-3. Right-click `index.html` and select **"Open with Live Server"**.
+3. Right-click `index.html` and select **"Open with Live Server"**. To launch the dashboard directly, use `index.html?dashboard=1`.
 
 ### Option 4: Using Node.js (npx)
 ```bash
